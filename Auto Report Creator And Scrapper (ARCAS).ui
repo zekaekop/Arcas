@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>791</width>
-    <height>442</height>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,13 +39,19 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>70</y>
       <width>771</width>
-      <height>331</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="title">
      <string>Configuration</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
     <widget class="QLabel" name="acc_path_label">
      <property name="geometry">
@@ -122,26 +128,13 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>220</y>
+       <y>280</y>
        <width>111</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
       <string>AI Summerize</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBox_2">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>220</y>
-       <width>181</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Modify Report Template</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_output">
@@ -190,7 +183,7 @@
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>220</y>
+       <y>280</y>
        <width>88</width>
        <height>34</height>
       </rect>
@@ -203,7 +196,7 @@
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>220</y>
+       <y>280</y>
        <width>88</width>
        <height>34</height>
       </rect>
@@ -216,20 +209,23 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>290</y>
+       <y>350</y>
        <width>611</width>
-       <height>23</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="value">
       <number>24</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="scrape">
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>280</y>
+       <y>340</y>
        <width>91</width>
        <height>34</height>
       </rect>
@@ -242,9 +238,9 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>260</y>
+       <y>315</y>
        <width>711</width>
-       <height>16</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="orientation">
@@ -255,13 +251,233 @@
      <property name="geometry">
       <rect>
        <x>560</x>
-       <y>220</y>
+       <y>280</y>
        <width>88</width>
        <height>34</height>
       </rect>
      </property>
      <property name="text">
       <string>Reload</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>230</y>
+       <width>141</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>None</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="repo_label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>210</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Repository</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="repo_label_2">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>210</y>
+       <width>91</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Scrape After</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sun</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mon</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_3">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Tue</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_4">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Wed</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_5">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Fri</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_6">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sat</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="week_btn_7">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>230</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Thu</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_3">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>230</y>
+       <width>86</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>All Week</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line_19">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>260</y>
+       <width>711</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>280</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Modify Template</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_2">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>280</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Create New Template</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="repo_label_13">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>210</y>
+       <width>161</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Days to include</string>
+     </property>
+    </widget>
+    <widget class="QDateEdit" name="dateEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>230</y>
+       <width>101</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="dateTime">
+      <datetime>
+       <hour>23</hour>
+       <minute>0</minute>
+       <second>0</second>
+       <year>2025</year>
+       <month>12</month>
+       <day>31</day>
+      </datetime>
      </property>
     </widget>
    </widget>
