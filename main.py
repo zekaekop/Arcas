@@ -22,9 +22,9 @@ class Ui(QtWidgets.QMainWindow):
 
         report = self.lineEdit_report.text()
         account = self.lineEdit_account.text()
-        ouput = self.lineEdit_output.text()
+        output = self.lineEdit_output.text()
 
-        data = {'path':{'report':report, 'account':account, 'output':ouput}}
+        data = {'path':{'report':report, 'account':account, 'output':output}}
         
         yaml.dump(data, open("config.yml", "w"))
 
