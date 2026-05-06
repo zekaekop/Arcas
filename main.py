@@ -47,6 +47,11 @@ class Ui(QtWidgets.QMainWindow):
             'Fri': 0,
             'Sat': 0
         }
+
+        # its better to authenticate since you wont be rate limited after 60 requests
+
+        self.username = "Eko_cli"
+        self.token = ""
     
     def ai_report(self, user_template_pdf_path):
         # Use your own Deepseek or any other AI model api key below
@@ -143,7 +148,7 @@ class Ui(QtWidgets.QMainWindow):
 
         url = "https://api.github.com/repos/" + str(owner) + "/" + str(repo) + "/commits"
 
-        res = requests.get(url)
+        res = requests.get(url, auth=(self.username, self.token))
         return json.loads(res.text)
     
     def fetch_commit_contents(self, commit_url):
@@ -177,7 +182,8 @@ class Ui(QtWidgets.QMainWindow):
                             f.write(json.dumps(patch, indent=4) + "\n")
 
                     # this is a nice trick, it adds 80 characters of =, you can just multiply strings
-                    f.write("\n" + "="*80 + "\n\n")
+                    # f.write("\n" + "="*80 + "\n\n") nevermind it doesnt look that nice
+                    f.write("\n\n")
     
     def scrape_btn_clicked(self):
         self.save_fetched_commits()
