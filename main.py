@@ -38,6 +38,8 @@ class Ui(QtWidgets.QMainWindow):
         self.week_btn_sat.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sat))
 
         self.checkBox_all_week.clicked.connect(self.toggle_all_week_btns)
+        # toggles all buttons by default
+        self.toggle_all_week_btns
 
         # Week buttons and toggles
         self.week_buttons = {
@@ -126,13 +128,13 @@ class Ui(QtWidgets.QMainWindow):
 
     def change_week_btn_style(self, button):
 
-        if button:
+        if button: 
             style = button.styleSheet()
             if style == "QPushButton{ background-color: #292c30;}" or not style:
                 button.setStyleSheet("QPushButton{ background-color: #3daee9;}")
             else:
                 button.setStyleSheet("QPushButton{ background-color: #292c30;}")
-
+        # if button doesnt exist just toggle all of the buttons / most likely outcome is that its comming from checkbox_week
         elif self.groupBox_week.styleSheet() == "QPushButton{ background-color: #292c30;}" or not self.groupBox_week.styleSheet():
                 self.groupBox_week.setStyleSheet("QPushButton{ background-color: #3daee9;}")
         else:
