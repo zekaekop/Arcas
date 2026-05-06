@@ -105,7 +105,7 @@ class Ui(QtWidgets.QMainWindow):
         for button in self.week_buttons:
             self.week_buttons[button] ^= 1
             self.change_week_btn_style(None)
-            print(self.week_buttons)
+        print(self.week_buttons)
 
     def create_conf(self):
         with open("config.yml", "w") as f:
