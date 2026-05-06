@@ -37,6 +37,8 @@ class Ui(QtWidgets.QMainWindow):
         self.week_btn_fri.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_fri))
         self.week_btn_sat.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sat))
 
+        self.checkBox_all_week.clicked.connect(self.toggle_all_week_btns)
+
         # Week buttons and toggles
         self.week_buttons = {
             'Sun': 0,
@@ -97,6 +99,13 @@ class Ui(QtWidgets.QMainWindow):
         self.week_buttons[button.text()] ^= 1
         self.change_week_btn_style(button)
         print(self.week_buttons)
+    
+    def toggle_all_week_btns(self):
+        # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
+        for button in self.week_buttons:
+            self.week_buttons[button] ^= 1
+            self.change_week_btn_style(None)
+            print(self.week_buttons)
 
     def create_conf(self):
         with open("config.yml", "w") as f:
@@ -117,12 +126,17 @@ class Ui(QtWidgets.QMainWindow):
 
     def change_week_btn_style(self, button):
 
-        style = button.styleSheet()
+        if button:
+            style = button.styleSheet()
+            if style == "QPushButton{ background-color: #292c30;}" or not style:
+                button.setStyleSheet("QPushButton{ background-color: #3daee9;}")
+            else:
+                button.setStyleSheet("QPushButton{ background-color: #292c30;}")
 
-        if style == "QPushButton{ background-color: #292c30;}" or not style:
-            button.setStyleSheet("QPushButton{ background-color: #3daee9;}")
+        elif self.groupBox_week.styleSheet() == "QPushButton{ background-color: #292c30;}" or not self.groupBox_week.styleSheet():
+                self.groupBox_week.setStyleSheet("QPushButton{ background-color: #3daee9;}")
         else:
-            button.setStyleSheet("QPushButton{ background-color: #292c30;}")
+            self.groupBox_week.setStyleSheet("QPushButton{ background-color: #292c30;}")
 
     def clear_textboxes(self):
         self.lineEdit_report.setText("")
