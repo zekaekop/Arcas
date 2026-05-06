@@ -272,19 +272,6 @@
       <string>Days Before</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_all_week">
-     <property name="geometry">
-      <rect>
-       <x>660</x>
-       <y>230</y>
-       <width>86</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>All Week</string>
-     </property>
-    </widget>
     <widget class="Line" name="line_19">
      <property name="geometry">
       <rect>
@@ -408,85 +395,82 @@
       <string>Your job is to read and understand the commit history of an user and create a similiar report the user has given. Also Create the report and commits with its associate language</string>
      </property>
     </widget>
-    <widget class="QGroupBox" name="groupBox_week">
-     <property name="enabled">
-      <bool>true</bool>
+    <widget class="QPushButton" name="all_week_btn">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>230</y>
+       <width>88</width>
+       <height>31</height>
+      </rect>
      </property>
+     <property name="text">
+      <string>All Week</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
        <x>280</x>
        <y>230</y>
-       <width>371</width>
+       <width>361</width>
        <height>31</height>
       </rect>
      </property>
-     <property name="title">
-      <string/>
-     </property>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>371</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_week">
-       <item>
-        <widget class="QPushButton" name="week_btn_sun">
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Sun</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_mon">
-         <property name="text">
-          <string>Mon</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_tue">
-         <property name="text">
-          <string>Tue</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_wed">
-         <property name="text">
-          <string>Wed</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_thu">
-         <property name="text">
-          <string>Thu</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_fri">
-         <property name="text">
-          <string>Fri</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="week_btn_sat">
-         <property name="text">
-          <string>Sat</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_week">
+      <item>
+       <widget class="QPushButton" name="week_btn_sun">
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Sun</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_mon">
+        <property name="text">
+         <string>Mon</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_tue">
+        <property name="text">
+         <string>Tue</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_wed">
+        <property name="text">
+         <string>Wed</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_thu">
+        <property name="text">
+         <string>Thu</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_fri">
+        <property name="text">
+         <string>Fri</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="week_btn_sat">
+        <property name="text">
+         <string>Sat</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>

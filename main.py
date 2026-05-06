@@ -37,7 +37,7 @@ class Ui(QtWidgets.QMainWindow):
         self.week_btn_fri.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_fri))
         self.week_btn_sat.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sat))
 
-        self.checkBox_all_week.clicked.connect(self.toggle_all_week_btns)
+        self.all_week_btn.clicked.connect(self.toggle_all_week_btns)
 
         # Week buttons and toggles
         self.week_buttons = {
@@ -106,7 +106,7 @@ class Ui(QtWidgets.QMainWindow):
     def toggle_all_week_btns(self):
         # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
         for button in self.week_buttons:
-            self.week_buttons[button] ^= 1
+            self.week_buttons[button] = 1
             self.change_week_btn_style(None)
         print(self.week_buttons)
 
@@ -131,15 +131,21 @@ class Ui(QtWidgets.QMainWindow):
 
         if button: 
             style = button.styleSheet()
-            if style == "QPushButton{ background-color: #292c30;}" or not style:
-                button.setStyleSheet("QPushButton{ background-color: #3daee9;}")
+            if self.week_buttons[button.text()] == 1:
+                button.setStyleSheet("QPushButton{ background-color: #276f93;}")
             else:
                 button.setStyleSheet("QPushButton{ background-color: #292c30;}")
-        # if button doesnt exist just toggle all of the buttons / most likely outcome is that its comming from checkbox_week
-        elif self.groupBox_week.styleSheet() == "QPushButton{ background-color: #292c30;}" or not self.groupBox_week.styleSheet():
-                self.groupBox_week.setStyleSheet("QPushButton{ background-color: #276f93;}")
+        # if button doesnt exist just toggle all of the buttons / most likely outcome is that its comming from all_week_btn
         else:
-            self.groupBox_week.setStyleSheet("QPushButton{ background-color: #292c30;}")
+            for day in self.week_buttons:
+                # if not text how do i get dict name
+
+                target_btn = self.findChild(QtWidgets.QPushButton, f"week_btn_{day.lower()}")
+                if target_btn:  
+                    if self.week_buttons[day] == 1:
+                        target_btn.setStyleSheet("QPushButton{ background-color: #276f93;}")
+                    else:
+                        target_btn.setStyleSheet("QPushButton{ background-color: #292c30;}")
 
     def clear_textboxes(self):
         self.lineEdit_report.setText("")
