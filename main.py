@@ -49,13 +49,15 @@ class Ui(QtWidgets.QMainWindow):
         }
 
         # its better to authenticate since you wont be rate limited after 60 requests
+        config = yaml.safe_load(open("config.yml", "r"))
 
         self.username = "Eko_cli"
-        self.token = ""
+
+        self.token = config["user"]["token"]
+        self.api_key = config["user"]["ai_token"]
     
     def ai_report(self, user_template_pdf_path):
         # Use your own Deepseek or any other AI model api key below
-        api_key = ""
         template_prompt = "Your job is to read and understand the commit history of an user and create a similiar report the user has given. Also Create the report with its associate language"
 
         # This is really usefull to convert pdf files into text soo the AI can see this
@@ -69,7 +71,7 @@ class Ui(QtWidgets.QMainWindow):
         with open("commits.md", "r") as f:
             user_commit_log = f.read()
         
-        client = Groq(api_key=api_key,)
+        client = Groq(api_key=self.api_key,)
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -102,6 +104,9 @@ class Ui(QtWidgets.QMainWindow):
                 output: ''
                 report: ''
                 repo: ''
+            user:
+                token: ''
+                ai_token: ''
             """
 
             f.write(config_contents)
@@ -154,7 +159,7 @@ class Ui(QtWidgets.QMainWindow):
     def fetch_commit_contents(self, commit_url):
         url = commit_url
         
-        res = requests.get(url)
+        res = requests.get(url, auth=(self.username, self.token))
         return json.loads(res.text)
 
     def save_fetched_commits(self):
@@ -177,9 +182,12 @@ class Ui(QtWidgets.QMainWindow):
                     commit_detail = self.fetch_commit_contents(commit["url"])
 
                     for file_change in commit_detail.get("files", []):
-                        patch = file_change.get("patch")
-                        if patch:
-                            f.write(json.dumps(patch, indent=4) + "\n")
+                        if not file_change.get("filename").endswith(".ui"):
+                            patch = file_change.get("patch")
+                            if patch:
+                                for line in patch.split("\n"):
+                                    if line.startswith("+") and not line.startswith("+++"):
+                                        f.write(json.dumps(line, indent=4) + "\n")
 
                     # this is a nice trick, it adds 80 characters of =, you can just multiply strings
                     # f.write("\n" + "="*80 + "\n\n") nevermind it doesnt look that nice
