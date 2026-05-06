@@ -2,6 +2,8 @@ from PyQt6 import QtWidgets, uic
 
 import sys
 import yaml
+import requests
+import json
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
@@ -12,6 +14,11 @@ class Ui(QtWidgets.QMainWindow):
         self.clear_btn.clicked.connect(self.clear_textboxes)
         self.save_btn.clicked.connect(self.save_conf)
         self.reload_btn.clicked.connect(self.load_conf)
+        self.scrape.clicked.connect(self.save_fetched_commits)
+
+    def create_conf(self):
+        with open("config.yml", "w") as f:
+            pass
 
     def clear_textboxes(self):
         self.lineEdit_report.setText("")
@@ -37,6 +44,34 @@ class Ui(QtWidgets.QMainWindow):
     def reset_conf(self):
         pass
     
+    def connect_github_api(self):
+        pass
+
+    def fetch_commits_from_repo(self):
+        # This needs to be limited since fetching all commits from a big repo is a problem
+        config = yaml.safe_load(open("config.yml", "r"))
+        owner = config['path']['account']
+        repo = self.lineEdit_repo_name.text()
+
+        url = "https://api.github.com/repos/" + str(owner) + "/" + str(repo) + "/commits"
+
+        res = requests.get(url)
+        return json.loads(res.text)
+    
+    def save_fetched_commits(self):
+        # Fetches all commits
+        commits = self.fetch_commits_from_repo()
+        # How many days it should go back to start scraping the commits
+        days_before = self.spinBox.value()
+
+        with open("commits.md", "w") as f:
+            for i in range(days_before):
+                f.write(json.dumps(commits[i]["sha"], indent=4) + ": ")
+                f.write(json.dumps(commits[i]["commit"]["message"], indent=4) + "\n")
+    
+    def warning_banner(self):
+        pass
+
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
 app.exec()

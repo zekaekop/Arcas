@@ -1,0 +1,7 @@
+"8c6ca1a747f63a448dd00f4aae65cc4d56ccb86b": "added MIT license"
+"3ea1455d6f92dc507f01ec6dc0f35ab6c8788075": "i am unsure on fixing layout for a dynamic expirience"
+"7ef67a84302aee7bc8704c40e299a16449b52bf8": "made the UI more complete"
+"fc6b7787edb6ef8ce75b5902209512cee8687fc5": "fixed spelling mistake ouput"
+"72b7acbab40541746603ba11074b5ca9eef79046": "applied gitignore"
+"aa67ae5c47499b444a13d94030eb8d3d3e47f0aa": "add gitignore"
+"20e40a9433bd281273328d787c54b785a04672dc": "init project arcas"
