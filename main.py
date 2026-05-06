@@ -18,7 +18,16 @@ class Ui(QtWidgets.QMainWindow):
 
     def create_conf(self):
         with open("config.yml", "w") as f:
-            pass
+            # Remember to Update this when making changes to config
+            config_contents = """
+            path:
+                account: ''
+                output: ''
+                report: ''
+                repo: ''
+            """
+
+            f.write(config_contents)
 
     def clear_textboxes(self):
         self.lineEdit_report.setText("")

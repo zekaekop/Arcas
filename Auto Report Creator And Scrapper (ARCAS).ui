@@ -298,7 +298,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Scrape After</string>
+      <string>Days Before</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkBox_3">
