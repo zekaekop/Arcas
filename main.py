@@ -38,8 +38,6 @@ class Ui(QtWidgets.QMainWindow):
         self.week_btn_sat.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sat))
 
         self.checkBox_all_week.clicked.connect(self.toggle_all_week_btns)
-        # toggles all buttons by default
-        self.toggle_all_week_btns
 
         # Week buttons and toggles
         self.week_buttons = {
@@ -51,6 +49,9 @@ class Ui(QtWidgets.QMainWindow):
             'Fri': 0,
             'Sat': 0
         }
+
+        # toggles all buttons by default
+        self.toggle_all_week_btns()
 
         self.load_conf()
 
