@@ -48,6 +48,8 @@ class Ui(QtWidgets.QMainWindow):
             'Sat': 0
         }
 
+        self.load_conf()
+
         # its better to authenticate since you wont be rate limited after 60 requests
         config = yaml.safe_load(open("config.yml", "r"))
 
