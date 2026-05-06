@@ -60,7 +60,8 @@ class Ui(QtWidgets.QMainWindow):
     
     def ai_report(self, user_template_pdf_path):
         # Use your own Deepseek or any other AI model api key below
-        template_prompt = "Your job is to read and understand the commit history of an user and create a similiar report the user has given. Also Create the report with its associate language"
+        # This prompt is pretty bad because i have no idea how to write good prompts
+        template_prompt = "Your job is to read and understand the commit history of an user and create a similiar report the user has given. Also Create the report and commits with its associate language "
 
         # This is really usefull to convert pdf files into text soo the AI can see this
         with open(user_template_pdf_path, 'rb') as f: 
@@ -126,14 +127,14 @@ class Ui(QtWidgets.QMainWindow):
     def clear_textboxes(self):
         self.lineEdit_report.setText("")
         self.lineEdit_account.setText("")
-        self.lineEdit_output.setText("")
+        self.plainTextEdit_prompt.setPlainText("")
         self.lineEdit_repo_name.setText("")
 
     def save_conf(self):
 
         report = self.lineEdit_report.text()
         account = self.lineEdit_account.text()
-        output = self.lineEdit_output.text()
+        output = self.plainTextEdit_prompt.text()
         repo = self.lineEdit_repo_name.text()
 
         data = {'path':{'report':report, 'account':account, 'output':output, 'repo':repo}}
@@ -144,7 +145,7 @@ class Ui(QtWidgets.QMainWindow):
         config = yaml.safe_load(open("config.yml", "r"))
         self.lineEdit_report.setText(config['path']['report'])
         self.lineEdit_account.setText(config['path']['account'])
-        self.lineEdit_output.setText(config['path']['output'])
+        self.plainTextEdit_prompt.setPlainText(config['path']['output'])
         self.lineEdit_repo_name.setText(config['path']['repo'])
     
     def fetch_commits_from_repo(self):
