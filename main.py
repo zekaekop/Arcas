@@ -16,6 +16,9 @@ class Ui(QtWidgets.QMainWindow):
         self.reload_btn.clicked.connect(self.load_conf)
         self.scrape.clicked.connect(self.save_fetched_commits)
 
+        self.week_btn_sun.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_sun))
+        self.week_btn_mon.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_mon))
+
     def create_conf(self):
         with open("config.yml", "w") as f:
             # Remember to Update this when making changes to config
@@ -28,6 +31,15 @@ class Ui(QtWidgets.QMainWindow):
             """
 
             f.write(config_contents)
+
+    def change_week_btn_style(self, button):
+
+        style = button.styleSheet()
+
+        if style == "QPushButton{ background-color: #292c30;}" or not style:
+            button.setStyleSheet("QPushButton{ background-color: #3daee9;}")
+        else:
+            button.setStyleSheet("QPushButton{ background-color: #292c30;}")
 
     def clear_textboxes(self):
         self.lineEdit_report.setText("")
