@@ -81,7 +81,7 @@
       <enum>QFrame::Shadow::Plain</enum>
      </property>
      <property name="text">
-      <string>Github Account (URL) *</string>
+      <string>Github Account Username *</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_report">
@@ -107,7 +107,7 @@
       </rect>
      </property>
      <property name="placeholderText">
-      <string>https://github.com/torvalds</string>
+      <string>Github Username</string>
      </property>
     </widget>
     <widget class="QLabel" name="report_path_label">
