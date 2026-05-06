@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>787</width>
-    <height>492</height>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,7 +56,7 @@
       <x>6</x>
       <y>64</y>
       <width>775</width>
-      <height>401</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="title">
@@ -224,9 +224,9 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>350</y>
-       <width>611</width>
-       <height>21</height>
+       <y>340</y>
+       <width>511</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="value">
@@ -239,7 +239,7 @@
     <widget class="QPushButton" name="scrape">
      <property name="geometry">
       <rect>
-       <x>650</x>
+       <x>550</x>
        <y>340</y>
        <width>91</width>
        <height>34</height>
@@ -381,6 +381,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="week_btn_sun">
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Sun</string>
         </property>
@@ -454,6 +457,19 @@
      </property>
      <property name="placeholderText">
       <string>Repo Name</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ai_gen_btn">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>340</y>
+       <width>91</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>AI Generate</string>
      </property>
     </widget>
    </widget>

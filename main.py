@@ -1,9 +1,18 @@
 from PyQt6 import QtWidgets, uic
+from groq import Groq
 
 import sys
+import os
+
 import yaml
 import requests
 import json
+
+import PyPDF2
+
+# PDF lib for custom templates
+# https://github.com/pymupdf/pymupdf
+# import pymupdf
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
@@ -14,7 +23,9 @@ class Ui(QtWidgets.QMainWindow):
         self.clear_btn.clicked.connect(self.clear_textboxes)
         self.save_btn.clicked.connect(self.save_conf)
         self.reload_btn.clicked.connect(self.load_conf)
-        self.scrape.clicked.connect(self.save_fetched_commits)
+
+        self.scrape.clicked.connect(self.scrape_btn_clicked)
+        self.ai_gen_btn.clicked.connect(self.ai_generate_btn_clicked)
 
         # Week buttons
         self.week_btn_sun.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sun))
@@ -35,6 +46,40 @@ class Ui(QtWidgets.QMainWindow):
             'Fri': 0,
             'Sat': 0
         }
+    
+    def ai_report(self, user_template_pdf_path):
+        # Use your own Deepseek or any other AI model api key below
+        api_key = ""
+        template_prompt = "Your job is to read and understand the commit history of an user and create a similiar report the user has given. Also Create the report with its associate language"
+
+        # This is really usefull to convert pdf files into text soo the AI can see this
+        with open(user_template_pdf_path, 'rb') as f: 
+            pdf_reader = PyPDF2.PdfReader(f)
+            text_content = ""
+            for page in pdf_reader.pages:
+                text_content += page.extract_text()
+            user_template_pdf = text_content
+
+        with open("commits.md", "r") as f:
+            user_commit_log = f.read()
+        
+        client = Groq(api_key=api_key,)
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": str(template_prompt) + " user: Commit  History: " + str(user_commit_log) + "And Template PDF:" + str(user_template_pdf),
+                }
+            ],
+            model="llama-3.3-70b-versatile",
+        )
+
+        print(str(template_prompt) + " user: Commit  History: " + str(user_commit_log) + "And Template PDF:" + str(user_template_pdf))
+        print("\n")
+        print(chat_completion)
+
+        with open("AI_report.md", "w") as f:
+            f.write(chat_completion.choices[0].message.content)
 
     def toggle_week_btn(self, button):
         # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
@@ -89,16 +134,10 @@ class Ui(QtWidgets.QMainWindow):
         self.lineEdit_output.setText(config['path']['output'])
         self.lineEdit_repo_name.setText(config['path']['repo'])
     
-    def reset_conf(self):
-        pass
-    
-    def connect_github_api(self):
-        pass
-
     def fetch_commits_from_repo(self):
         # This needs to be limited since fetching all commits from a big repo is a problem
         config = yaml.safe_load(open("config.yml", "r"))
-        owner = config['path']['account']
+        owner = self.lineEdit_account.text()
         repo = self.lineEdit_repo_name.text()
 
         url = "https://api.github.com/repos/" + str(owner) + "/" + str(repo) + "/commits"
@@ -117,8 +156,19 @@ class Ui(QtWidgets.QMainWindow):
                 f.write(json.dumps(commits[i]["sha"], indent=4) + ": ")
                 f.write(json.dumps(commits[i]["commit"]["message"], indent=4) + "\n")
     
-    def warning_banner(self):
-        pass
+    def scrape_btn_clicked(self):
+        self.save_fetched_commits()
+    
+    def ai_generate_btn_clicked(self):
+        # checks if its not empty or null
+        if self.lineEdit_report.text() != None or self.lineEdit_report.text() == "":
+            self.ai_report(self.lineEdit_report.text())
+        else:
+            self.warning_banner("You must include a report template path, to be able to generate")
+
+    def warning_banner(self, warning):
+        # this is primative but just print it
+        print(warning)
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
