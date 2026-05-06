@@ -16,14 +16,31 @@ class Ui(QtWidgets.QMainWindow):
         self.reload_btn.clicked.connect(self.load_conf)
         self.scrape.clicked.connect(self.save_fetched_commits)
 
-        # Week buttons attached to the style func
-        self.week_btn_sun.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_sun))
-        self.week_btn_mon.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_mon))
-        self.week_btn_tue.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_tue))
-        self.week_btn_wed.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_wed))
-        self.week_btn_thu.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_thu))
-        self.week_btn_fri.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_fri))
-        self.week_btn_sat.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_sat))
+        # Week buttons
+        self.week_btn_sun.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sun))
+        self.week_btn_mon.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_mon))
+        self.week_btn_tue.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_tue))
+        self.week_btn_wed.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_wed))
+        self.week_btn_thu.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_thu))
+        self.week_btn_fri.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_fri))
+        self.week_btn_sat.clicked.connect(lambda: self.toggle_week_btn(self.week_btn_sat))
+
+        # Week buttons and toggles
+        self.week_buttons = {
+            'Sun': 0,
+            'Mon': 0,
+            'Tue': 0,
+            'Wed': 0,
+            'Thu': 0,
+            'Fri': 0,
+            'Sat': 0
+        }
+
+    def toggle_week_btn(self, button):
+        # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
+        self.week_buttons[button.text()] ^= 1
+        self.change_week_btn_style(button)
+        print(self.week_buttons)
 
     def create_conf(self):
         with open("config.yml", "w") as f:
@@ -37,6 +54,7 @@ class Ui(QtWidgets.QMainWindow):
             """
 
             f.write(config_contents)
+
 
     def change_week_btn_style(self, button):
 
