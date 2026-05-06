@@ -1,7 +1,0 @@
-"b04feeb04e8cd52ad1a80c834afe5fe8ff6eb807": "saved button toggle states into a dict"
-"f988cc3a5acaa6841b0f0cea9e1a225593f9cdc5": "Added repo name textbox to the config file and save/clear/reload func"
-"80f99e45499c9d87ad2c6c6a13f9df82965810a9": "added all the buttons"
-"8a773ee376d05b9db95079778e68d062abe59eb7": "made the buttons change its style when clicked to resemble a toggle"
-"2d86a8c96f0db9bc9121242e3e9eb8a15717ce1f": "renamed button names to their correct week name"
-"caadebdb6b15d3bf30bafc53f472a90d350aa079": "fixed label and linedit placeholder text"
-"55d3bd53e162d2c8b3962a42ccb8fe4b072cd97f": "fixed create_conf and renamed some label text"

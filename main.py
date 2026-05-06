@@ -9,6 +9,7 @@ import requests
 import json
 
 import PyPDF2
+from datetime import datetime, timedelta, timezone
 
 # PDF lib for custom templates
 # https://github.com/pymupdf/pymupdf
@@ -145,16 +146,38 @@ class Ui(QtWidgets.QMainWindow):
         res = requests.get(url)
         return json.loads(res.text)
     
+    def fetch_commit_contents(self, commit_url):
+        url = commit_url
+        
+        res = requests.get(url)
+        return json.loads(res.text)
+
     def save_fetched_commits(self):
         # Fetches all commits
         commits = self.fetch_commits_from_repo()
         # How many days it should go back to start scraping the commits
         days_before = self.spinBox.value()
 
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days_before)
+
         with open("commits.md", "w") as f:
-            for i in range(days_before):
-                f.write(json.dumps(commits[i]["sha"], indent=4) + ": ")
-                f.write(json.dumps(commits[i]["commit"]["message"], indent=4) + "\n")
+            for commit in commits:
+
+                commit_date = datetime.fromisoformat(commit["commit"]["author"]["date"].replace('Z', '+00:00'))
+
+                if commit_date >= cutoff_date:
+                    f.write(json.dumps(commit["sha"], indent=4) + ": ")
+                    f.write(json.dumps(commit["commit"]["message"], indent=4) + " \n ")
+
+                    commit_detail = self.fetch_commit_contents(commit["url"])
+
+                    for file_change in commit_detail.get("files", []):
+                        patch = file_change.get("patch")
+                        if patch:
+                            f.write(json.dumps(patch, indent=4) + "\n")
+
+                    # this is a nice trick, it adds 80 characters of =, you can just multiply strings
+                    f.write("\n" + "="*80 + "\n\n")
     
     def scrape_btn_clicked(self):
         self.save_fetched_commits()
