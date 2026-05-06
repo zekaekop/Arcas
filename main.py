@@ -51,14 +51,16 @@ class Ui(QtWidgets.QMainWindow):
         self.lineEdit_report.setText("")
         self.lineEdit_account.setText("")
         self.lineEdit_output.setText("")
+        self.lineEdit_repo_name.setText("")
 
     def save_conf(self):
 
         report = self.lineEdit_report.text()
         account = self.lineEdit_account.text()
         output = self.lineEdit_output.text()
+        repo = self.lineEdit_repo_name.text()
 
-        data = {'path':{'report':report, 'account':account, 'output':output}}
+        data = {'path':{'report':report, 'account':account, 'output':output, 'repo':repo}}
         
         yaml.dump(data, open("config.yml", "w"))
 
@@ -67,6 +69,7 @@ class Ui(QtWidgets.QMainWindow):
         self.lineEdit_report.setText(config['path']['report'])
         self.lineEdit_account.setText(config['path']['account'])
         self.lineEdit_output.setText(config['path']['output'])
+        self.lineEdit_repo_name.setText(config['path']['repo'])
     
     def reset_conf(self):
         pass
