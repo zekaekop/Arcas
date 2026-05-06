@@ -16,8 +16,14 @@ class Ui(QtWidgets.QMainWindow):
         self.reload_btn.clicked.connect(self.load_conf)
         self.scrape.clicked.connect(self.save_fetched_commits)
 
+        # Week buttons attached to the style func
         self.week_btn_sun.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_sun))
         self.week_btn_mon.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_mon))
+        self.week_btn_tue.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_tue))
+        self.week_btn_wed.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_wed))
+        self.week_btn_thu.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_thu))
+        self.week_btn_fri.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_fri))
+        self.week_btn_sat.clicked.connect(lambda: self.change_week_btn_style(self.week_btn_sat))
 
     def create_conf(self):
         with open("config.yml", "w") as f:
