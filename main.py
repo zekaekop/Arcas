@@ -137,7 +137,7 @@ class Ui(QtWidgets.QMainWindow):
                 button.setStyleSheet("QPushButton{ background-color: #292c30;}")
         # if button doesnt exist just toggle all of the buttons / most likely outcome is that its comming from checkbox_week
         elif self.groupBox_week.styleSheet() == "QPushButton{ background-color: #292c30;}" or not self.groupBox_week.styleSheet():
-                self.groupBox_week.setStyleSheet("QPushButton{ background-color: #3daee9;}")
+                self.groupBox_week.setStyleSheet("QPushButton{ background-color: #276f93;}")
         else:
             self.groupBox_week.setStyleSheet("QPushButton{ background-color: #292c30;}")
 
