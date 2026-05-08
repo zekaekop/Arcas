@@ -40,7 +40,7 @@ class Ui(QtWidgets.QMainWindow):
         self.all_week_btn.clicked.connect(self.toggle_all_week_btns)
 
         # Week buttons and toggles
-        self.week_buttons = {
+        self.week_days = {
             'Sun': 0,
             'Mon': 0,
             'Tue': 0,
@@ -99,16 +99,16 @@ class Ui(QtWidgets.QMainWindow):
 
     def toggle_week_btn(self, button):
         # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
-        self.week_buttons[button.text()] ^= 1
+        self.week_days[button.text()] ^= 1
         self.change_week_btn_style(button)
-        print(self.week_buttons)
+        print(self.week_days)
     
     def toggle_all_week_btns(self):
         # Toggles the state of the weeks buttons index 0 is btn and 1 is the state
-        for button in self.week_buttons:
-            self.week_buttons[button] = 1
+        for button in self.week_days:
+            self.week_days[button] = 1
             self.change_week_btn_style(None)
-        print(self.week_buttons)
+        print(self.week_days)
 
     def create_conf(self):
         with open("config.yml", "w") as f:
@@ -116,12 +116,12 @@ class Ui(QtWidgets.QMainWindow):
             config_contents = """
             path:
                 account: ''
-                output: ''
                 report: ''
                 repo: ''
             user:
                 token: ''
                 ai_token: ''
+                user_prompt: ''
             """
 
             f.write(config_contents)
@@ -131,18 +131,18 @@ class Ui(QtWidgets.QMainWindow):
 
         if button: 
             style = button.styleSheet()
-            if self.week_buttons[button.text()] == 1:
+            if self.week_days[button.text()] == 1:
                 button.setStyleSheet("QPushButton{ background-color: #276f93;}")
             else:
                 button.setStyleSheet("QPushButton{ background-color: #292c30;}")
         # if button doesnt exist just toggle all of the buttons / most likely outcome is that its comming from all_week_btn
         else:
-            for day in self.week_buttons:
+            for day in self.week_days:
                 # if not text how do i get dict name
 
                 target_btn = self.findChild(QtWidgets.QPushButton, f"week_btn_{day.lower()}")
                 if target_btn:  
-                    if self.week_buttons[day] == 1:
+                    if self.week_days[day] == 1:
                         target_btn.setStyleSheet("QPushButton{ background-color: #276f93;}")
                     else:
                         target_btn.setStyleSheet("QPushButton{ background-color: #292c30;}")
@@ -157,18 +157,34 @@ class Ui(QtWidgets.QMainWindow):
 
         report = self.lineEdit_report.text()
         account = self.lineEdit_account.text()
-        output = self.plainTextEdit_prompt.text()
+        user_prompt = self.plainTextEdit_prompt.toPlainText()
         repo = self.lineEdit_repo_name.text()
 
-        data = {'path':{'report':report, 'account':account, 'output':output, 'repo':repo}}
+        try:
+            with open("config.yml", "r") as f:
+                config = yaml.safe_load(f)
+        except FileNotFoundError:
+            config = {}
         
-        yaml.dump(data, open("config.yml", "w"))
+        # Only changes whats not the same
+        if "path" not in config:
+            config["path"] = {}
+        
+        # path
+        config["path"]["account"] = account
+        config["path"]["report"] = report
+        config["path"]["repo"] = repo
+        # user
+        config["user"]["user_prompt"] = user_prompt
+
+        with open("config.yml", "w") as f:
+            yaml.dump(config, f)
 
     def load_conf(self):
         config = yaml.safe_load(open("config.yml", "r"))
         self.lineEdit_report.setText(config['path']['report'])
         self.lineEdit_account.setText(config['path']['account'])
-        self.plainTextEdit_prompt.setPlainText(config['path']['output'])
+        self.plainTextEdit_prompt.setPlainText(config['user']['user_prompt'])
         self.lineEdit_repo_name.setText(config['path']['repo'])
     
     def fetch_commits_from_repo(self):
@@ -202,9 +218,13 @@ class Ui(QtWidgets.QMainWindow):
                 commit_date = datetime.fromisoformat(commit["commit"]["author"]["date"].replace('Z', '+00:00'))
 
                 if commit_date >= cutoff_date:
-                    f.write(json.dumps(commit["sha"], indent=4) + ": ")
-                    f.write(json.dumps(commit["commit"]["message"], indent=4) + " \n ")
 
+                    for week_day in self.week_days:
+                        # Converts the API date into Fri, Mon etc. and compares the dict key names, if they match it also checks if its true before actually writing data
+                        if commit["commit"]["author"]["date"].strftime("%a") == week_day.keys() and week_day == 1:
+                            f.write(json.dumps(commit["sha"], indent=4) + ": ")
+                            f.write(json.dumps(commit["commit"]["message"], indent=4) + " \n ")
+                    
                     commit_detail = self.fetch_commit_contents(commit["url"])
 
                     for file_change in commit_detail.get("files", []):
@@ -218,6 +238,9 @@ class Ui(QtWidgets.QMainWindow):
                     # this is a nice trick, it adds 80 characters of =, you can just multiply strings
                     # f.write("\n" + "="*80 + "\n\n") nevermind it doesnt look that nice
                     f.write("\n\n")
+
+    # def filter_api_dates_with_toggled_week_days(self):
+        
     
     def scrape_btn_clicked(self):
         self.save_fetched_commits()
