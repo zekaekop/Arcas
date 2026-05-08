@@ -94,6 +94,8 @@ class Ui(QtWidgets.QMainWindow):
         print("\n")
         print(chat_completion)
 
+        self.progressBar.setValue(100)
+
         with open("AI_report.md", "w") as f:
             f.write(chat_completion.choices[0].message.content)
 
@@ -206,10 +208,12 @@ class Ui(QtWidgets.QMainWindow):
         
     
     def scrape_btn_clicked(self):
+        self.progressBar.setValue(0)
         self.save_fetched_commits()
     
     def ai_generate_btn_clicked(self):
         # checks if its not empty or null
+        self.progressBar.setValue(0)
         if self.lineEdit_report.text() != None or self.lineEdit_report.text() == "":
             self.ai_report(self.lineEdit_report.text())
         else:
