@@ -118,6 +118,7 @@ class Ui(QtWidgets.QMainWindow):
                 account: ''
                 report: ''
                 repo: ''
+                days_before: ''
             user:
                 token: ''
                 ai_token: ''
@@ -152,13 +153,18 @@ class Ui(QtWidgets.QMainWindow):
         self.lineEdit_account.setText("")
         self.plainTextEdit_prompt.setPlainText("")
         self.lineEdit_repo_name.setText("")
+        self.plainTextEdit_prompt.setPlainText("")
+        # Default should be a week / 7 days
+        self.spinBox_days_before.setValue(7) 
 
     def save_conf(self):
 
         report = self.lineEdit_report.text()
         account = self.lineEdit_account.text()
-        user_prompt = self.plainTextEdit_prompt.toPlainText()
         repo = self.lineEdit_repo_name.text()
+        days_before = self.spinBox_days_before.value()
+
+        user_prompt = self.plainTextEdit_prompt.toPlainText()
 
         try:
             with open("config.yml", "r") as f:
@@ -174,6 +180,7 @@ class Ui(QtWidgets.QMainWindow):
         config["path"]["account"] = account
         config["path"]["report"] = report
         config["path"]["repo"] = repo
+        config["path"]["days_before"] = days_before
         # user
         config["user"]["user_prompt"] = user_prompt
 
@@ -181,11 +188,14 @@ class Ui(QtWidgets.QMainWindow):
             yaml.dump(config, f)
 
     def load_conf(self):
-        config = yaml.safe_load(open("config.yml", "r"))
-        self.lineEdit_report.setText(config['path']['report'])
-        self.lineEdit_account.setText(config['path']['account'])
-        self.plainTextEdit_prompt.setPlainText(config['user']['user_prompt'])
-        self.lineEdit_repo_name.setText(config['path']['repo'])
+        with open("config.yml", "r") as f:
+            config = yaml.safe_load(f)
+            
+            self.lineEdit_report.setText(config['path']['report'])
+            self.lineEdit_account.setText(config['path']['account'])
+            self.spinBox_days_before.setValue(config["path"]["days_before"])
+            self.plainTextEdit_prompt.setPlainText(config['user']['user_prompt'])
+            self.lineEdit_repo_name.setText(config['path']['repo'])
     
     def fetch_commits_from_repo(self):
         # This needs to be limited since fetching all commits from a big repo is a problem
