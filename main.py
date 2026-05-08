@@ -22,8 +22,8 @@ class Ui(QtWidgets.QMainWindow):
         self.show()
     
         self.clear_btn.clicked.connect(self.clear_textboxes)
-        self.save_btn.clicked.connect(self.save_conf)
-        self.reload_btn.clicked.connect(self.load_conf)
+        self.save_btn.clicked.connect(self.save_btn_clicked)
+        self.reload_btn.clicked.connect(self.reload_btn_clicked)
 
         self.scrape.clicked.connect(self.scrape_btn_clicked)
         self.ai_gen_btn.clicked.connect(self.ai_generate_btn_clicked)
@@ -53,7 +53,7 @@ class Ui(QtWidgets.QMainWindow):
         # toggles all buttons by default
         self.toggle_all_week_btns()
 
-        self.load_conf()
+        ConfigManager.load_conf(self)
 
         # its better to authenticate since you wont be rate limited after 60 requests
         config = yaml.safe_load(open("config.yml", "r"))
@@ -110,24 +110,6 @@ class Ui(QtWidgets.QMainWindow):
             self.change_week_btn_style(None)
         print(self.week_days)
 
-    def create_conf(self):
-        with open("config.yml", "w") as f:
-            # Remember to Update this when making changes to config
-            config_contents = """
-            path:
-                account: ''
-                report: ''
-                repo: ''
-                days_before: ''
-            user:
-                token: ''
-                ai_token: ''
-                user_prompt: ''
-            """
-
-            f.write(config_contents)
-
-
     def change_week_btn_style(self, button):
 
         if button: 
@@ -157,45 +139,11 @@ class Ui(QtWidgets.QMainWindow):
         # Default should be a week / 7 days
         self.spinBox_days_before.setValue(7) 
 
-    def save_conf(self):
+    def save_btn_clicked(self):
+        ConfigManager.save_conf(self)
 
-        report = self.lineEdit_report.text()
-        account = self.lineEdit_account.text()
-        repo = self.lineEdit_repo_name.text()
-        days_before = self.spinBox_days_before.value()
-
-        user_prompt = self.plainTextEdit_prompt.toPlainText()
-
-        try:
-            with open("config.yml", "r") as f:
-                config = yaml.safe_load(f)
-        except FileNotFoundError:
-            config = {}
-        
-        # Only changes whats not the same
-        if "path" not in config:
-            config["path"] = {}
-        
-        # path
-        config["path"]["account"] = account
-        config["path"]["report"] = report
-        config["path"]["repo"] = repo
-        config["path"]["days_before"] = days_before
-        # user
-        config["user"]["user_prompt"] = user_prompt
-
-        with open("config.yml", "w") as f:
-            yaml.dump(config, f)
-
-    def load_conf(self):
-        with open("config.yml", "r") as f:
-            config = yaml.safe_load(f)
-            
-            self.lineEdit_report.setText(config['path']['report'])
-            self.lineEdit_account.setText(config['path']['account'])
-            self.spinBox_days_before.setValue(config["path"]["days_before"])
-            self.plainTextEdit_prompt.setPlainText(config['user']['user_prompt'])
-            self.lineEdit_repo_name.setText(config['path']['repo'])
+    def reload_btn_clicked(self):
+        ConfigManager.load_conf(self)
     
     def fetch_commits_from_repo(self):
         # This needs to be limited since fetching all commits from a big repo is a problem
@@ -265,6 +213,64 @@ class Ui(QtWidgets.QMainWindow):
     def warning_banner(self, warning):
         # this is primative but just print it
         print(warning)
+
+class ConfigManager():
+
+    config_struct = {
+        "path": {"account": '', 
+                    "report": '',
+                    "repo": '',
+                    "days_before": 7},
+        "user": {"token": '',
+                    "ai_token": '',
+                    "user_prompt": '',}
+    }
+
+    def create_conf(self):
+        with open("config.yml", "w") as f:
+            f.write(self.config_struct)
+
+    def save_conf(self):
+
+        report = self.lineEdit_report.text()
+        account = self.lineEdit_account.text()
+        repo = self.lineEdit_repo_name.text()
+        days_before = self.spinBox_days_before.value()
+
+        user_prompt = self.plainTextEdit_prompt.toPlainText()
+
+        try:
+            with open("config.yml", "r") as f:
+                config = yaml.safe_load(f)
+        except FileNotFoundError:
+            self.create_conf()
+        
+        if "path" not in config:
+            config["path"] = {}
+        
+        # path
+        config["path"]["account"] = account
+        config["path"]["report"] = report
+        config["path"]["repo"] = repo
+        config["path"]["days_before"] = days_before
+        # user
+        config["user"]["user_prompt"] = user_prompt
+
+        with open("config.yml", "w") as f:
+            yaml.dump(config, f)
+
+    def load_conf(self):
+        try:
+            with open("config.yml", "r") as f:
+                config = yaml.safe_load(f)
+                
+                self.lineEdit_report.setText(config['path']['report'])
+                self.lineEdit_account.setText(config['path']['account'])
+                self.spinBox_days_before.setValue(config["path"]["days_before"])
+                self.plainTextEdit_prompt.setPlainText(config['user']['user_prompt'])
+                self.lineEdit_repo_name.setText(config['path']['repo'])
+        except FileNotFoundError:
+            self.create_conf()
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
