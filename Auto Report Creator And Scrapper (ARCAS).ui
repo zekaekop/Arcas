@@ -327,7 +327,7 @@
       <string>Days to include</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox">
+    <widget class="QSpinBox" name="spinBox_days_before">
      <property name="geometry">
       <rect>
        <x>180</x>
