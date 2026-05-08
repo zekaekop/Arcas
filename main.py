@@ -166,7 +166,7 @@ class Ui(QtWidgets.QMainWindow):
         # Fetches all commits
         commits = self.fetch_commits_from_repo()
         # How many days it should go back to start scraping the commits
-        days_before = self.spinBox.value()
+        days_before = self.spinBox_days_before.value()
 
         cutoff_date = datetime.now(timezone.utc) - timedelta(days=days_before)
 
@@ -179,9 +179,9 @@ class Ui(QtWidgets.QMainWindow):
 
                     for week_day in self.week_days:
                         # Converts the API date into Fri, Mon etc. and compares the dict key names, if they match it also checks if its true before actually writing data
-                        if commit["commit"]["author"]["date"].strftime("%a") == week_day.keys() and week_day == 1:
+                        if commit_date.strftime("%a") == week_day and self.week_days[week_day] == 1:
                             f.write(json.dumps(commit["sha"], indent=4) + ": ")
-                            f.write(json.dumps(commit["commit"]["message"], indent=4) + " \n ")
+                            f.write(json.dumps(commit["commit"]["message"], indent=4) + " \n\n")
                     
                     commit_detail = self.fetch_commit_contents(commit["url"])
 
