@@ -160,6 +160,11 @@ class Ui(QtWidgets.QMainWindow):
         url = commit_url
         
         res = requests.get(url, auth=(self.username, self.token))
+
+        # I spent soo much time, trying to figure out progress bars,
+        # that i didnt notice i can just set it to 100% since we are dealing with API calls that are a few KBs json files
+        self.progressBar.setValue(100)
+
         return json.loads(res.text)
 
     def save_fetched_commits(self):
